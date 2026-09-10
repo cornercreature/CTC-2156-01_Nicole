@@ -1,0 +1,25 @@
+*{
+    margin-top: 6vh;
+}
+.title{
+    font-family: Menlo, sans-serif;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+}
+
+a{
+    font-family: Menlo, sans-serif;
+    font-size: 12px;
+    text-decoration: none;
+    color: black;
+}
+
+a:hover{
+    color: #1500ff;
+}
+
+nav{
+    display: flex;
+    justify-content: center;
+}
