@@ -71,27 +71,51 @@
             void main() {
                 //normalize fragcoord
                 vec2 st = gl_FragCoord.xy/u_resolution.xy;
-                vec3 color = vec3(0.552,0.790,0.102);
+                vec3 color = vec3(0.790,0.679,0.048);
                 
                 //canvas position
-                vec2 pos = vec2(-0.200,-0.300)
+                vec2 pos = vec2(0.50,0.50)
                     -st;
                 
-                //normalize mousecoord
+                //normalize mousecoord (0.0 - 1.0)
                 vec2 mouseP = u_mouse/ u_resolution;
-
-                float r = length(pos)*2.624;
+				
+    			float mx = st.x * mouseP.x;
+    			float my = st.y * mouseP.y;
+                
+    			//floats for shaping
+    			float r = length(pos)*2.624;
                 float a = atan(pos.y,pos.x);
                 float v = atan(50.*sin(r));
-                float t = (cos(u_time));
+    
+    			//time animation
+                float t = (cos(0.5* u_time));
+    
+    			//shaping mouse effect
+    			float mpm = (log(mx*my));
+				
+    			//base shape
+                float f = (cos(a*2.5))*0.128+.3 ;
+   				
+    			color = vec3( 1.-smoothstep(f,f+0.02,r));
 
-                float f = acos(a*3.544);
-
-                f = (tan(a*11.432)*tan(a*(2.7*tan(t))))*0.236+(0.24*t)+-0.032;
+    			gl_FragColor = vec4(color, 1.0);
+				//shaping
+                 f = (tan(a*11.272)*cos(a*(2.260*tan(t*mpm))))*0.140+(0.24*t)+0.512;
                 
-                color = vec3( 0.712-smoothstep((3.120*f),(v),r) )*vec3(1.000,0.900,0.961)
-                    +vec3(0.990,0.568,0.255)
-                    +vec3(0.325,0.306,0.325);
+    			//complexifying shape w distance fields
+                color = vec3(vec3(0.946,1.796,0.336)- smoothstep((3.400*f),v+1.192,r+1.648)) * smoothstep((3.120*f),0.488,-1.264) * smoothstep((3.120*f),1.912,r)                     
+					//additional color treatment
+					+ vec3(0.411,0.347,0.475)
+            
+                    + vec3(0.005,0.002,0.001)
+
+        			- vec3(0.005,0.003,0.005)
+        
+        			+ vec3(0.023,0.000,0.990);
+                 // color = vec3( 0.712 - smoothstep((3.120*f),(v),r) * (smoothstep (3.120*f)) ) * vec3(1.000,0.900,0.961)
+                 //    +vec3(0.990,0.568,0.255)
+                 //     +vec3(0.325,0.306,0.325);
 
                 gl_FragColor = vec4(color, 1.080);
             }
