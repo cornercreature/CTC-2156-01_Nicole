@@ -3,14 +3,14 @@
 }
 .title{
     font-family: Menlo, sans-serif;
-    font-size: 12px;
+    font-size: 1.25rem;
     display: flex;
     justify-content: center;
 }
 
 a{
     font-family: Menlo, sans-serif;
-    font-size: 12px;
+    font-size: 1.25rem;
     text-decoration: none;
     color: black;
 }
