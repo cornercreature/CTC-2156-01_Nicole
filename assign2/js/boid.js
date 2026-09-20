@@ -4,6 +4,8 @@ class Boid {
         this.position = createVector(width/2, height/2);
         // this.velocity = createVector();
         this.velocity = p5.Vector.random2D();
+        //rndm by default increases by 1 increment, so we need to set mag limits in order to have a more natural movement
+        this.velocity.setMag(random(0.5, 1.5));
         this.acceleration = createVector();
 
     }
