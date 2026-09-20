@@ -7,7 +7,22 @@ class Boid {
         //rndm by default increases by 1 increment, so we need to set mag limits in order to have a more natural movement
         this.velocity.setMag(random(2, 4));
         this.acceleration = createVector();
+        this.maxForce = 0.2;
+        this.maxSpeed = 4;
 
+    }
+
+    edges() {
+        if (this.position.x > width) {
+            this.position.x = 0;
+        } else if (this.position.x < 0) {
+            this.position.x = width;
+        }
+        if (this.position.y > height) {
+            this.position.y = 0;
+        } else if (this.position.y < 0) {
+            this.position.y = height;
+        }
     }
 
     align(boids) {
@@ -30,7 +45,9 @@ class Boid {
         }
         if (total > 0) {
                 steering.div(total);
+                steering.setMag(this.maxSpeed);
                 steering.sub(this.velocity);
+                steering.limit(this.maxForce);
             }
         return steering;
     }
