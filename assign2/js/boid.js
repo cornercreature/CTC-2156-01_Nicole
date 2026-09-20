@@ -80,13 +80,49 @@ class Boid {
         return steering;
     }
     
+    separation(boids) {
+        let perceptionRadius = 30;
+        //steering is desired is avg of vector velocities
+        let steering = createVector();
+        let total = 0;
+        for (let other of boids) {
+            let d = dist(
+                this.position.x, 
+                this.position.y, 
+                other.position.x, 
+                other.position.y
+            );
+
+            if (other != this && d < perceptionRadius) {
+                let diff = p5.Vector.sub(this.position, other.position);
+                diff.div(d); //normalize distance so that closer boids have a stronger effect
+                steering.add(diff);
+                total++;
+            }
+        }
+        if (total > 0) {
+                steering.div(total);
+                steering.setMag(this.maxSpeed);
+                steering.sub(this.velocity);
+                steering.limit(this.maxForce);
+            }
+        return steering;
+    }
+
     flock(boids) {
         this.acceleration.mult(0);
         let alignment = this.align (boids);
         let cohesion = this.cohesion(boids);
+        let separation = this.separation(boids);
+
+        separation.mult(separationSlider.value());
+        alignment.mult(alignSlider.value());
+        cohesion.mult(cohesionSlider.value());
+
         this.acceleration.add(alignment);
         //force accumulation, add cohesion to acceleration for sum of movement
         this.acceleration.add(cohesion);
+        this.acceleration.add(separation);
     }
 
 
