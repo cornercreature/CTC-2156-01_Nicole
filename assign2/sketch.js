@@ -12,6 +12,7 @@ function draw() {
     background(41);
 
     for (let boid of flock) {
+        boid.flock(flock);
         boid.update();
         boid.show();
     }
