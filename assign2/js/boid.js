@@ -5,15 +5,15 @@ class Boid {
         // this.velocity = createVector();
         this.velocity = p5.Vector.random2D();
         //rndm by default increases by 1 increment, so we need to set mag limits in order to have a more natural movement
-        this.velocity.setMag(random(0.5, 1.5));
+        this.velocity.setMag(random(2, 4));
         this.acceleration = createVector();
 
     }
 
     align(boids) {
-        let perceptionRadius = 100;
+        let perceptionRadius = 40;
         //steering is desired is avg of vector velocities
-        let desired = createVector();
+        let steering = createVector();
         let total = 0;
         for (let other of boids) {
             let d = dist(
@@ -31,7 +31,6 @@ class Boid {
         if (total > 0) {
                 steering.div(total);
                 steering.sub(this.velocity);
-                return steering;
             }
         return steering;
     }
