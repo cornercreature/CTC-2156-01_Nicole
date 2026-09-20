@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*! p5.js v2.2.3 March 21, 2026 */
 var p5 = (function () {
   'use strict';
