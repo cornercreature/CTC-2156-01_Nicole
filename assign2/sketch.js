@@ -39,11 +39,11 @@ function setup() {
 
 function draw() {
     ambientLight(255);
-    background(0,0,0);
+    background(255);
     // Fill();
     stroke(150);
-    strokeWeight(1);
-    
+    noStroke();
+
     orbitControl();
     // box(BOX_W, BOX_H, BOX_D);
 
