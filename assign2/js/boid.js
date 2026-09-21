@@ -7,6 +7,7 @@ class Boid {
             random(-BOX_H / 2, BOX_H / 2),
             random(-BOX_D / 2, BOX_D / 2)
         );
+
         this.velocity = p5.Vector.random3D();
         //rndm by default increases by 1 increment, so we need to set mag limits in order to have a more natural movement
         this.velocity.setMag(random(2, 4, 0.1));
@@ -36,6 +37,17 @@ class Boid {
             this.velocity.z *= -1;
         }
     }
+
+    seek() {
+        let desired = p5.vector.sub(EventTarget, this.position);
+        desired.normalize();
+        desired.mult(this.maxspeed);
+        
+        let steering = p5.vector.sub(EventTarget, this.position);
+        steering.limit(this.maxForce);
+        return steering;
+    }
+
 
     align(boids) {
         let perceptionRadius = 40;
@@ -82,7 +94,7 @@ class Boid {
             );
 
             if (other != this && d < perceptionRadius) {
-                steering.add(this.mouse);
+                steering.add(this.mouse, other.position);
                 total++;
             }
         }
@@ -100,6 +112,7 @@ class Boid {
         let perceptionRadius = 30;
         //steering is desired is avg of vector velocities
         let steering = createVector();
+        // let steering = createVector();
         let total = 0;
         for (let other of boids) {
             let d = dist(
@@ -133,9 +146,10 @@ class Boid {
         let cohesion = this.cohesion(boids);
         let separation = this.separation(boids);
 
-        separation.mult(separationSlider.value());
-        alignment.mult(alignSlider.value());
-        cohesion.mult(cohesionSlider.value());
+        // //feeds slider values into flocking weights
+        // separation.mult(separationSlider.value());
+        // alignment.mult(alignSlider.value());
+        // cohesion.mult(cohesionSlider.value());
 
         this.acceleration.add(alignment);
         //force accumulation, add cohesion to acceleration for sum of movement

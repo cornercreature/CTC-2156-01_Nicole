@@ -1,3 +1,7 @@
+// made with reference to Daniel Shiffman's coding challeng 124, Flocking Simulation,
+// as well as his youtube series 18 about Web GL
+// 
+
 const flock = [];
 
 let alignSlider, cohesionSlider, separationSlider;
@@ -15,7 +19,7 @@ const BOX_H_HALF = BOX_H / 2;
 const BOX_D_HALF = BOX_D / 2;
 
 function setup() {
-    createCanvas(800, 600,WEBGL);
+    createCanvas(windowWidth, windowHeight,WEBGL);
 
     // texture coords go 0..1 across each face instead of in pixels
     textureMode(NORMAL);
@@ -28,11 +32,13 @@ function setup() {
 
     graphics = createGraphics(800, 600);
 
-    alignSlider = createSlider(0, 5, 1, 0.1);
-    cohesionSlider = createSlider(0, 5, 1, 0.1);
-    separationSlider = createSlider(0, 5, 1, 0.1);
+    //sliders for testing behavior weights
+    // alignSlider = createSlider(0, 5, 1, 0.1);
+    // cohesionSlider = createSlider(0, 5, 1, 0.1);
+    // separationSlider = createSlider(0, 5, 1, 0.1);
+
     //number of boids
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 300; i++) {
         flock.push(new Boid());
     }
 }
