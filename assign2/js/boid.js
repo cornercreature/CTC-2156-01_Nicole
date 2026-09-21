@@ -24,15 +24,15 @@ class Boid {
         const halfD = BOX_D / 2;
 
         if (this.position.x > halfW || this.position.x < -halfW) {
-            this.position.x = constrain(this.position.x, -halfW, halfW);
+            this.position.x = constrain(this.position.x, (-halfW + 10), (halfW - 10));
             this.velocity.x *= -1;
         }
         if (this.position.y > halfH || this.position.y < -halfH) {
-            this.position.y = constrain(this.position.y, -halfH, halfH);
+            this.position.y = constrain(this.position.y, (-halfH + 10), (halfH - 10));
             this.velocity.y *= -1;
         }
         if (this.position.z > halfD || this.position.z < -halfD) {
-            this.position.z = constrain(this.position.z, -halfD, halfD);
+            this.position.z = constrain(this.position.z, (-halfD + 10), (halfD - 10));
             this.velocity.z *= -1;
         }
     }
@@ -154,7 +154,7 @@ class Boid {
     show() {
     
     strokeWeight(8);
-    stroke(0,0,0);
+    stroke(255);
     noFill();
     point(this.position.x, this.position.y, this.position.z);
         }
