@@ -35,15 +35,50 @@ function draw() {
 
     normalMaterial();
 
+    //front face
     beginShape();
     vertex(-BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF);
     vertex(BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF);
     vertex(BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF);
     vertex(-BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF);
     endShape();
+
+    //back face
     beginShape();
     vertex(-BOX_W_HALF, -BOX_H_HALF, BOX_D_HALF);
     vertex(BOX_W_HALF, -BOX_H_HALF, BOX_D_HALF);
+    vertex(BOX_W_HALF, BOX_H_HALF, BOX_D_HALF);
+    vertex(-BOX_W_HALF, BOX_H_HALF, BOX_D_HALF);
+    endShape();
+
+    //right face
+    beginShape();
+    vertex(-BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF);
+    vertex(-BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF);
+    vertex(-BOX_W_HALF, BOX_H_HALF, BOX_D_HALF);
+    vertex(-BOX_W_HALF, -BOX_H_HALF, BOX_D_HALF);
+    endShape();
+
+    //left face
+    beginShape();
+    vertex(BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF);
+    vertex(BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF);
+    vertex(BOX_W_HALF, BOX_H_HALF, BOX_D_HALF);
+    vertex(BOX_W_HALF, -BOX_H_HALF, BOX_D_HALF);
+    endShape();
+
+    //top face
+    beginShape();
+    vertex(-BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF);
+    vertex(BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF);
+    vertex(BOX_W_HALF, -BOX_H_HALF, BOX_D_HALF);
+    vertex(-BOX_W_HALF, -BOX_H_HALF, BOX_D_HALF);
+    endShape();
+
+    //bottom face
+    beginShape();
+    vertex(-BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF);
+    vertex(BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF);
     vertex(BOX_W_HALF, BOX_H_HALF, BOX_D_HALF);
     vertex(-BOX_W_HALF, BOX_H_HALF, BOX_D_HALF);
     endShape();
