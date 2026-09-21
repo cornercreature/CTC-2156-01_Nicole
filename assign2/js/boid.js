@@ -11,6 +11,7 @@ class Boid {
         //rndm by default increases by 1 increment, so we need to set mag limits in order to have a more natural movement
         this.velocity.setMag(random(2, 4, 0.1));
         this.acceleration = createVector();
+        this.mouse = createVector(mouseX, mouseY);
         this.maxForce = 0.2;
         this.maxSpeed = 4;
 
@@ -81,7 +82,7 @@ class Boid {
             );
 
             if (other != this && d < perceptionRadius) {
-                steering.add(other.position);
+                steering.add(this.mouse);
                 total++;
             }
         }
@@ -151,10 +152,11 @@ class Boid {
     }
 
     show() {
-    strokeWeight(10);
-    stroke(41, 41, 41);
+    
+    strokeWeight(8);
+    stroke(0,0,0);
     noFill();
     point(this.position.x, this.position.y, this.position.z);
-    }
+        }
 
 }
