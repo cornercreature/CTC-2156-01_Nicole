@@ -1,11 +1,15 @@
 class Boid {
     constructor() {
-        // places position in middle of window
-        this.position = createVector(random(width), random(height));
-        // this.velocity = createVector();
-        this.velocity = p5.Vector.random2D();
+
+        // random spot inside the box (origin is the box's center)
+        this.position = createVector(
+            random(-BOX_W / 2, BOX_W / 2),
+            random(-BOX_H / 2, BOX_H / 2),
+            random(-BOX_D / 2, BOX_D / 2)
+        );
+        this.velocity = p5.Vector.random3D();
         //rndm by default increases by 1 increment, so we need to set mag limits in order to have a more natural movement
-        this.velocity.setMag(random(2, 4));
+        this.velocity.setMag(random(2, 4, 0.1));
         this.acceleration = createVector();
         this.maxForce = 0.2;
         this.maxSpeed = 4;
@@ -13,15 +17,22 @@ class Boid {
     }
 
     edges() {
-        if (this.position.x > width) {
-            this.position.x = 0;
-        } else if (this.position.x < 0) {
-            this.position.x = width;
+        // keep boids inside the box: clamp to the wall and bounce off it
+        const halfW = BOX_W / 2;
+        const halfH = BOX_H / 2;
+        const halfD = BOX_D / 2;
+
+        if (this.position.x > halfW || this.position.x < -halfW) {
+            this.position.x = constrain(this.position.x, -halfW, halfW);
+            this.velocity.x *= -1;
         }
-        if (this.position.y > height) {
-            this.position.y = 0;
-        } else if (this.position.y < 0) {
-            this.position.y = height;
+        if (this.position.y > halfH || this.position.y < -halfH) {
+            this.position.y = constrain(this.position.y, -halfH, halfH);
+            this.velocity.y *= -1;
+        }
+        if (this.position.z > halfD || this.position.z < -halfD) {
+            this.position.z = constrain(this.position.z, -halfD, halfD);
+            this.velocity.z *= -1;
         }
     }
 
@@ -34,8 +45,10 @@ class Boid {
             let d = dist(
                 this.position.x, 
                 this.position.y, 
+                this.position.z,
                 other.position.x, 
-                other.position.y
+                other.position.y, 
+                other.position.z
             );
 
             if (other != this && d < perceptionRadius) {
@@ -61,8 +74,10 @@ class Boid {
             let d = dist(
                 this.position.x, 
                 this.position.y, 
+                this.position.z,
                 other.position.x, 
-                other.position.y
+                other.position.y, 
+                other.position.z
             );
 
             if (other != this && d < perceptionRadius) {
@@ -89,8 +104,10 @@ class Boid {
             let d = dist(
                 this.position.x, 
                 this.position.y, 
+                this.position.z,
                 other.position.x, 
-                other.position.y
+                other.position.y, 
+                other.position.z
             );
 
             if (other != this && d < perceptionRadius) {
@@ -134,9 +151,10 @@ class Boid {
     }
 
     show() {
-    strokeWeight(8);
-    stroke(255);
-    point(this.position.x, this.position.y);
+    strokeWeight(10);
+    stroke(41, 41, 41);
+    noFill();
+    point(this.position.x, this.position.y, this.position.z);
     }
 
 }
