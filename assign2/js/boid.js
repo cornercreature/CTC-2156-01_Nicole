@@ -155,7 +155,8 @@ class Boid {
     
     strokeWeight(8);
     stroke(255);
-    noFill();
+    // no noFill() here: point() only uses stroke, and leaving the fill turned off
+    // breaks the next frame's texture() call in p5 2.x
     point(this.position.x, this.position.y, this.position.z);
         }
 

@@ -3,7 +3,7 @@ const flock = [];
 let alignSlider, cohesionSlider, separationSlider;
 
 let graphics;
-let cam;
+let birdvid;
 
 // size of box boids live in (box is centered on the origin in WEBGL)
 const BOX_W = 400;
@@ -19,14 +19,14 @@ function setup() {
 
     // texture coords go 0..1 across each face instead of in pixels
     textureMode(NORMAL);
+
     birdvid = createVideo(['assets/birds.mp4']);
+    // browsers only autoplay muted video
+    birdvid.elt.muted = true;
+    birdvid.loop();
+    birdvid.hide();
 
     graphics = createGraphics(800, 600);
-
-    cam = createCapture(VIDEO);
-    cam.size(800, 600);
-    // hide the extra <video> element p5 adds under the canvas
-    cam.hide();
 
     alignSlider = createSlider(0, 5, 1, 0.1);
     cohesionSlider = createSlider(0, 5, 1, 0.1);
@@ -43,28 +43,36 @@ function draw() {
     // Fill();
     stroke(150);
     strokeWeight(1);
+    
     orbitControl();
     // box(BOX_W, BOX_H, BOX_D);
 
+  
+
     //front face
     beginShape();
+    texture(birdvid);
     vertex(-BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF, 0, 0);
     vertex(BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF, 1, 0);
     vertex(BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF, 1, 1);
     vertex(-BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF, 0, 1);
     endShape();
 
-    //back face 
-    beginShape();
+    //back face (no fill = transparent, outline only)
+    // push/pop so noFill() is undone afterwards and the next texture() call works
+    push();
     noFill();
+    beginShape();
     vertex(-BOX_W_HALF, -BOX_H_HALF, BOX_D_HALF, 0, 0);
     vertex(BOX_W_HALF, -BOX_H_HALF, BOX_D_HALF, 1, 0);
     vertex(BOX_W_HALF, BOX_H_HALF, BOX_D_HALF, 1, 1);
     vertex(-BOX_W_HALF, BOX_H_HALF, BOX_D_HALF, 0, 1);
     endShape();
+    pop();
 
     //right face
     beginShape();
+    texture(birdvid);
     vertex(-BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF, 0, 0);
     vertex(-BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF, 0, 1);
     vertex(-BOX_W_HALF, BOX_H_HALF, BOX_D_HALF, 1, 1);
@@ -73,7 +81,7 @@ function draw() {
 
     //left face
     beginShape();
-
+    texture(birdvid);
     vertex(BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF, 0, 0);
     vertex(BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF, 0, 1);
     vertex(BOX_W_HALF, BOX_H_HALF, BOX_D_HALF, 1, 1);
@@ -82,6 +90,7 @@ function draw() {
 
     //top face
     beginShape();
+    texture(birdvid);
     vertex(-BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF, 0, 0);
     vertex(BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF, 1, 0);
     vertex(BOX_W_HALF, -BOX_H_HALF, BOX_D_HALF, 1, 1);
@@ -90,6 +99,7 @@ function draw() {
 
     //bottom face
     beginShape();
+    texture(birdvid);
     vertex(-BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF, 0, 0);
     vertex(BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF, 1, 0);
     vertex(BOX_W_HALF, BOX_H_HALF, BOX_D_HALF, 1, 1);
