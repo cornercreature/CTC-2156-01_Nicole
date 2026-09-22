@@ -1,6 +1,8 @@
 // made with reference to Daniel Shiffman's coding challeng 124, Flocking Simulation,
 // as well as his youtube series 18 about Web GL
-// 
+// and this sketch about mouse tracking boids: https://editor.p5js.org/mtoutside/sketches/mW72X1UZV
+//video footage taken from this free stock video on youtube: https://www.youtube.com/watch?v=KLezgwLA_94
+//AI was used to do some debugging cases for tasks such as setting up p5.js environment, setting textures and vector calculations.
 
 const flock = [];
 
