@@ -169,8 +169,7 @@ class Boid {
     
     strokeWeight(2);
     stroke(255);
-    rect(this.position.x, this.position.y, this.position.z, this.position.z);
-
+    rect(this.position.x, this.position.y, 2, 2);
         }
 
 }
