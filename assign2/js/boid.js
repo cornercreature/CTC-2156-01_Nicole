@@ -39,6 +39,7 @@ class Boid {
 
 
     followMouse(){
+        //use mouse to create target, leave position z as this position since no mouse z
         const target = createVector(
             mouseX - width / 2,
             mouseY - height / 2,
@@ -47,7 +48,8 @@ class Boid {
 
         const steering = p5.Vector.sub(target, this.position);
 
-        if(steering.magSq() > 0) {
+        //calcs length of vector, mag is max velocity - current velocity, going at max force
+        if(steering.mag() > 0) {
             steering.setMag(this.maxSpeed);
             steering.sub(this.velocity);
             steering.limit(this.maxForce);
@@ -155,12 +157,12 @@ class Boid {
         let separation = this.separation(boids);
         let mouseForce = this.followMouse();
 
-        // //feeds slider values into flocking weights
+        // //feeds slider values into flocking weights for testing
         // separation.mult(separationSlider.value());
         // alignment.mult(alignSlider.value());
         // cohesion.mult(cohesionSlider.value());
 
-        //adjust flocking weights here
+        //adjust flocking weights manually here
         separation.mult(1.8);
         alignment.mult(2);
         cohesion.mult(1.2);
