@@ -8,20 +8,16 @@
     justify-content: center;
 }
 
-h1{
+ul{
     text-align: center;
     font-family: Menlo, sans-serif;
     font-weight: 400;
-}
-
-a{
-    font-family: Menlo, sans-serif;
     font-size: 1.25rem;
     text-decoration: none;
     color: black;
 }
 
-a:hover{
+ul:hover{
     color: #1500ff;
 }
 
