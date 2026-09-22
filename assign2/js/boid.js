@@ -161,9 +161,9 @@ class Boid {
         // cohesion.mult(cohesionSlider.value());
 
         //adjust flocking weights here
-        separation.mult(1.2);
-        alignment.mult(1);
-        cohesion.mult(1);
+        separation.mult(1.8);
+        alignment.mult(2);
+        cohesion.mult(1.2);
         mouseForce.mult(0.8);
 
         this.acceleration.add(alignment);
