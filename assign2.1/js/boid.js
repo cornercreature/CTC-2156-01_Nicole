@@ -166,7 +166,7 @@ class Boid {
         separation.mult(1.6);
         alignment.mult(2);
         cohesion.mult(0.8);
-        mouseForce.mult(0.2);
+        mouseForce.mult(0.1);
 
         this.acceleration.add(alignment);
         //force accumulation, add cohesion to acceleration for sum of movement
