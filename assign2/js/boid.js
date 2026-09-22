@@ -12,7 +12,6 @@ class Boid {
         //rndm by default increases by 1 increment, so we need to set mag limits in order to have a more natural movement
         this.velocity.setMag(random(2, 4, 0.1));
         this.acceleration = createVector();
-        this.mouse = createVector(mouseX, mouseY);
         this.maxForce = 0.2;
         this.maxSpeed = 4;
 
@@ -38,16 +37,24 @@ class Boid {
         }
     }
 
-    seek() {
-        let desired = p5.vector.sub(EventTarget, this.position);
-        desired.normalize();
-        desired.mult(this.maxspeed);
-        
-        let steering = p5.vector.sub(EventTarget, this.position);
-        steering.limit(this.maxForce);
+
+    followMouse(){
+        const target = createVector(
+            mouseX - width / 2,
+            mouseY - height / 2,
+            this.position.z
+        );
+
+        const steering = p5.Vector.sub(target, this.position);
+
+        if(steering.magSq() > 0) {
+            steering.setMag(this.maxSpeed);
+            steering.sub(this.velocity);
+            steering.limit(this.maxForce);
+        }
+
         return steering;
     }
-
 
     align(boids) {
         let perceptionRadius = 40;
@@ -94,7 +101,7 @@ class Boid {
             );
 
             if (other != this && d < perceptionRadius) {
-                steering.add(this.mouse, other.position);
+                steering.add(other.position);
                 total++;
             }
         }
@@ -109,7 +116,7 @@ class Boid {
     }
     
     separation(boids) {
-        let perceptionRadius = 30;
+        let perceptionRadius = 60;
         //steering is desired is avg of vector velocities
         let steering = createVector();
         // let steering = createVector();
@@ -142,19 +149,28 @@ class Boid {
 
     flock(boids) {
         this.acceleration.mult(0);
+
         let alignment = this.align (boids);
         let cohesion = this.cohesion(boids);
         let separation = this.separation(boids);
+        let mouseForce = this.followMouse();
 
         // //feeds slider values into flocking weights
         // separation.mult(separationSlider.value());
         // alignment.mult(alignSlider.value());
         // cohesion.mult(cohesionSlider.value());
 
+        //adjust flocking weights here
+        separation.mult(1.2);
+        alignment.mult(1);
+        cohesion.mult(1);
+        mouseForce.mult(0.8);
+
         this.acceleration.add(alignment);
         //force accumulation, add cohesion to acceleration for sum of movement
         this.acceleration.add(cohesion);
         this.acceleration.add(separation);
+        this.acceleration.add(mouseForce);
     }
 
 
