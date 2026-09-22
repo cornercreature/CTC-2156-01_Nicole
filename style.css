@@ -8,6 +8,11 @@
     justify-content: center;
 }
 
+h1{
+    font-family: Menlo, sans-serif;
+    font-weight: 400;
+}
+
 a{
     font-family: Menlo, sans-serif;
     font-size: 1.25rem;
