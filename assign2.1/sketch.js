@@ -26,11 +26,14 @@ function setup() {
     // texture coords go 0..1 across each face instead of in pixels
     textureMode(NORMAL);
 
-    birdvid = createVideo(['assets/birds.mp4']);
+    // birdvid = createVideo(['assets/birds.mp4']);
     // browsers only autoplay muted video
-    birdvid.elt.muted = true;
-    birdvid.loop();
-    birdvid.hide();
+    // birdvid.elt.muted = true;
+    // birdvid.loop();
+    // birdvid.hide();
+
+    cam = createCapture(VIDEO);
+    cam.hide();
 
     graphics = createGraphics(800, 600);
 
@@ -40,7 +43,7 @@ function setup() {
     // separationSlider = createSlider(0, 5, 1, 0.1);
 
     //number of boids
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 50; i++) {
         flock.push(new Boid());
     }
 }
@@ -82,7 +85,7 @@ function draw() {
 
     //right face
     beginShape();
-    texture(birdvid);
+    texture(cam);
     vertex(-BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF, 0, 0);
     vertex(-BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF, 0, 1);
     vertex(-BOX_W_HALF, BOX_H_HALF, BOX_D_HALF, 1, 1);
@@ -91,7 +94,7 @@ function draw() {
 
     //left face
     beginShape();
-    texture(birdvid);
+    texture(cam);
     vertex(BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF, 0, 0);
     vertex(BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF, 0, 1);
     vertex(BOX_W_HALF, BOX_H_HALF, BOX_D_HALF, 1, 1);
@@ -100,7 +103,7 @@ function draw() {
 
     //top face
     beginShape();
-    texture(birdvid);
+    texture(cam);
     vertex(-BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF, 0, 0);
     vertex(BOX_W_HALF, -BOX_H_HALF, -BOX_D_HALF, 1, 0);
     vertex(BOX_W_HALF, -BOX_H_HALF, BOX_D_HALF, 1, 1);
@@ -109,7 +112,7 @@ function draw() {
 
     //bottom face
     beginShape();
-    texture(birdvid);
+    texture(cam);
     vertex(-BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF, 0, 0);
     vertex(BOX_W_HALF, BOX_H_HALF, -BOX_D_HALF, 1, 0);
     vertex(BOX_W_HALF, BOX_H_HALF, BOX_D_HALF, 1, 1);
