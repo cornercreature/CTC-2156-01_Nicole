@@ -8,12 +8,14 @@
     justify-content: center;
 }
 
-ul{
-    text-align: center;
-    font-family: Menlo, sans-serif;
+a{  font-family: Menlo, sans-serif;
     font-weight: 400;
     font-size: 1.25rem;
     text-decoration: none;
+}
+
+ul{
+    text-align: center;
     color: black;
     padding:0;
 }
