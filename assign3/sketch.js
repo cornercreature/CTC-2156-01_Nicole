@@ -86,5 +86,6 @@ function draw() {
 
     image (cam,-windowWidth/2, -windowHeight/2, windowWidth, windowHeight);
 
+    videoElement.size(windowWidth, windowHeight);
 
 }
