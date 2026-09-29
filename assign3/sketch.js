@@ -1,91 +1,78 @@
-let videoElement;
-let encoder;
-let decoder;
-let isWebCodecsReady = false;
+let video;
+let motion;
+let previousPixels = null;
 
-let speed = 2;
-let useKeyFrame = false;
+let threshold = 40;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight, WEBGL);
+  createCanvas(640, 460);
+  pixelDensity(1);
 
-    cam = createCapture(VIDEO);
-    cam.size = (windowWidth, windowHeight);
-    cam.hide();
-
-    // each time mouse pressed is a key frame
-    mousePressed(() => {
-        useKeyFrame = true;
-    });
-
-    //sets up webcodecs api
-    startWebcam().then(() => setupWebCodecs(ctx));
+  video = createCapture(VIDEO);
+  video.size(640, 460);
+  video.hide(); // Hide the separate HTML camera preview.
 }
 
 function draw() {
+  video.loadPixels();
 
-    if (isWebCodecsReady) {
-    const frame = new VideoFrame(videoElement.elt);
-    encoder.encode(frame, { keyFrame: useKeyFrame });
-    useKeyFrame = false;
-    frame.close();
+  // Wait until camera pixels are available.
+  if (video.pixels.length === 0) return;
+
+  // Initialize images when the camera is ready,
+  // or reset them if its dimensions change.
+  if (
+    motion === undefined ||
+    motion.width !== video.width ||
+    motion.height !== video.height ||
+    previousPixels.length !== video.pixels.length
+  ) {
+    motion = createImage(video.width, video.height);
+    previousPixels = new Uint8ClampedArray(video.pixels);
+    background(255);
+    return;
   }
 
-  async function startWebcam() {
-  return new Promise((resolve) => {
-    videoElement.elt.onloadeddata = () => {
-      resolve();
-    };
-    });
+  motion.loadPixels();
+
+  for (let y = 0; y < video.height; y++) {
+    for (let x = 0; x < video.width; x++) {
+      // Each pixel occupies four entries: red, green, blue, alpha.
+      const loc = 4 * (x + y * video.width);
+
+      const r1 = video.pixels[loc];
+      const g1 = video.pixels[loc + 1];
+      const b1 = video.pixels[loc + 2];
+
+      const r2 = previousPixels[loc];
+      const g2 = previousPixels[loc + 1];
+      const b2 = previousPixels[loc + 2];
+
+      const d = distSq(r1, g1, b1, r2, g2, b2);
+
+      // Small change = white; large change = black.
+      const shade = d < threshold * threshold ? 255 : 0;
+
+      motion.pixels[loc] = shade;
+      motion.pixels[loc + 1] = shade;
+      motion.pixels[loc + 2] = shade;
+      motion.pixels[loc + 3] = 255; // Fully opaque.
     }
+  }
 
-    function setupWebCodecs(ctx) {
-        encoder = new VideoEncoder({
-        output: handleEncodedChunk,
-        error: (err) => console.error("Encoder error:", err),
-    });
+  motion.updatePixels();
 
-    encoder.configure({
-    codec: "vp9",
-    width: windowWidth,
-    height: windowHeight,
-    });
+  // Scale the effect to fill the canvas.
+  image(motion, 0, 0, width, height);
 
-    decoder = new VideoDecoder({
-    output: (frame) => handleDecodedFrame(frame, ctx),
-    error: (err) => console.error("Decoder error:", err),
-    });
+  // Save the current pixels for the next comparison.
+  previousPixels.set(video.pixels);
+}
 
-    decoder.configure({
-    codec: "vp9",
-    });
-
-    isWebCodecsReady = true;
-    }
-
-    // speed controls rate at which delta frame is being decoded for every keyframe (1-1 is no moshing, higher = more moshing)
-    function handleEncodedChunk(chunk) {
-    if (chunk.type === "key") {
-    decoder.decode(chunk);
-    } else {
-    for (let i = 0; i < speed; i++) {
-      decoder.decode(chunk);
-    }
-    }
-    }
-
-    function handleDecodedFrame(frame, ctx) {
-    ctx.clearRect(0, 0, windowWidth, windowHeight);
-    ctx.save();
-    ctx.translate(windowWidth, 0);
-    ctx.scale(-1, 1);
-    ctx.drawImage(frame, 0, 0, windowWidth, windowHeight);
-    ctx.restore();
-    frame.close();
-    }
-
-    image (cam,-windowWidth/2, -windowHeight/2, windowWidth, windowHeight);
-
-    videoElement.size(windowWidth, windowHeight);
-
+function distSq(r1, g1, b1, r2, g2, b2) {
+  return (
+    (r2 - r1) ** 2 +
+    (g2 - g1) ** 2 +
+    (b2 - b1) ** 2
+  );
 }
