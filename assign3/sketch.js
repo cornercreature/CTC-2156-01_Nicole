@@ -1,43 +1,45 @@
+//camera originally coded on processing, 
 let video;
 let motion;
 let previousPixels = null;
 
-let threshold = 40;
+let threshold = 20;
 
-function setup() {
-  createCanvas(640, 460);
-  pixelDensity(1);
-
-  video = createCapture(VIDEO);
-  video.size(640, 460);
-  video.hide(); // Hide the separate HTML camera preview.
-}
-
-function draw() {
+function vidload (){
   video.loadPixels();
-
-  // Wait until camera pixels are available.
-  if (video.pixels.length === 0) return;
-
-  // Initialize images when the camera is ready,
-  // or reset them if its dimensions change.
+ // for if canvas size changes, weird differences and errors in video pixel data, if camera hasn't initialized yet
   if (
     motion === undefined ||
     motion.width !== video.width ||
     motion.height !== video.height ||
     previousPixels.length !== video.pixels.length
   ) {
+    //redo img
     motion = createImage(video.width, video.height);
+    //array clamped from 0 - 255 pixel to store prev pixel data in new location
     previousPixels = new Uint8ClampedArray(video.pixels);
     background(255);
     return;
   }
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  pixelDensity(1);
+
+  video = createCapture(VIDEO);
+  video.size(640, 460);
+  video.hide(); // Hide camera view
+
+}
+
+function draw() {
+   vidload();
 
   motion.loadPixels();
 
   for (let y = 0; y < video.height; y++) {
     for (let x = 0; x < video.width; x++) {
-      // Each pixel occupies four entries: red, green, blue, alpha.
       const loc = 4 * (x + y * video.width);
 
       const r1 = video.pixels[loc];
@@ -50,15 +52,22 @@ function draw() {
 
       const d = distSq(r1, g1, b1, r2, g2, b2);
 
-      // Small change = white; large change = black.
-      const shade = d < threshold * threshold ? 255 : 0;
+      //color change
+      if (d < threshold * threshold){
+       motion.pixels[loc] = r1;
+       motion.pixels[loc + 1] = g1;
+       motion.pixels[loc + 2] = b1;
+      } else {
+       const yflip = video.height - 1 - y;
+       const flipLoc = 4 * ((-1 * x) + yflip * video.width);
+       motion.pixels[loc] = video.pixels[flipLoc];
+       motion.pixels[loc + 1] = video.pixels[flipLoc + 1];
+       motion.pixels[loc + 2] = video.pixels[flipLoc + 2];
+      }
 
-      motion.pixels[loc] = shade;
-      motion.pixels[loc + 1] = shade;
-      motion.pixels[loc + 2] = shade;
-      motion.pixels[loc + 3] = 255; // Fully opaque.
+      motion.pixels[loc + 3] = 255;
     }
-  }
+    }
 
   motion.updatePixels();
 
