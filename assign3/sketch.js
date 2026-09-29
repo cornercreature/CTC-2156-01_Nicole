@@ -3,7 +3,7 @@ let video;
 let motion;
 let previousPixels = null;
 
-let threshold = 20;
+let threshold = 40;
 
 function vidload (){
   video.loadPixels();
@@ -34,9 +34,16 @@ function setup() {
 }
 
 function draw() {
+  background(0);
    vidload();
 
   motion.loadPixels();
+
+  const displayW = 150;
+  const displayH = displayW * motion.height / motion.width ; 
+
+  const displayX = (windowWidth - displayW)/2;
+  const displayY = (windowHeight - displayH)/2;
 
   for (let y = 0; y < video.height; y++) {
     for (let x = 0; x < video.width; x++) {
@@ -52,8 +59,8 @@ function draw() {
 
       const d = distSq(r1, g1, b1, r2, g2, b2);
 
-      //color change
-      if (d < threshold * threshold){
+      //mirror effect1
+      if (d > threshold * threshold){
        motion.pixels[loc] = r1;
        motion.pixels[loc + 1] = g1;
        motion.pixels[loc + 2] = b1;
@@ -65,23 +72,37 @@ function draw() {
        motion.pixels[loc + 2] = video.pixels[flipLoc + 2];
       }
 
-      motion.pixels[loc + 3] = 255;
+            //mirror effect2, just difference
+      // if (d < threshold * threshold){
+      //  motion.pixels[loc] = r1;
+      //  motion.pixels[loc + 1] = 160-g1;
+      //  motion.pixels[loc + 2] = b1;
+      // } else {
+      //  const yflip = video.height - 1 - y;
+      //  const flipLoc = 4 * ((-1 * x) + yflip * video.width);
+      //  motion.pixels[loc] = video.pixels[flipLoc];
+      //  motion.pixels[loc + 1] = video.pixels[flipLoc + 1];
+      //  motion.pixels[loc + 2] = video.pixels[flipLoc + 2];
+      // }
+
+      motion.pixels[loc + 3] = 155;
     }
     }
 
   motion.updatePixels();
 
   // Scale the effect to fill the canvas.
-  image(motion, 0, 0, width, height);
+  image(motion, displayX, displayY, displayW, displayH);
 
   // Save the current pixels for the next comparison.
   previousPixels.set(video.pixels);
+
 }
 
 function distSq(r1, g1, b1, r2, g2, b2) {
   return (
-    (r2 - r1) ** 2 +
-    (g2 - g1) ** 2 +
+    (r2 - r1) ** 12 +
+    (g2 - g1) ** 16 +
     (b2 - b1) ** 2
   );
 }
