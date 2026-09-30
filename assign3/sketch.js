@@ -41,7 +41,7 @@ function draw() {
   motion.loadPixels();
 
 
-  const displayW = 290;
+  const displayW = 200;
   const displayH = displayW * motion.height / motion.width ; 
 
   const displayX = (windowWidth - displayW)/2;
@@ -73,7 +73,7 @@ function draw() {
        motion.pixels[loc] = video.pixels[flipLoc];
        motion.pixels[loc + 1] = video.pixels[flipLoc + 1];
        motion.pixels[loc + 2] = video.pixels[flipLoc + 2];
-       motion.pixels[loc + 3] = 190;
+       motion.pixels[loc + 3] = 210;
       }
 
             //mirror effect2, just difference
