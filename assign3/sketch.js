@@ -2,8 +2,9 @@
 let video;
 let motion;
 let previousPixels = null;
+let blurmask;
 
-let threshold = 40;
+let threshold = 80;
 
 function vidload (){
   video.loadPixels();
@@ -39,7 +40,8 @@ function draw() {
 
   motion.loadPixels();
 
-  const displayW = 150;
+
+  const displayW = 290;
   const displayH = displayW * motion.height / motion.width ; 
 
   const displayX = (windowWidth - displayW)/2;
@@ -60,16 +62,18 @@ function draw() {
       const d = distSq(r1, g1, b1, r2, g2, b2);
 
       //mirror effect1
-      if (d > threshold * threshold){
+      if (d < threshold * threshold){
        motion.pixels[loc] = r1;
        motion.pixels[loc + 1] = g1;
        motion.pixels[loc + 2] = b1;
+       motion.pixels[loc + 3] = 60;
       } else {
        const yflip = video.height - 1 - y;
        const flipLoc = 4 * ((-1 * x) + yflip * video.width);
        motion.pixels[loc] = video.pixels[flipLoc];
        motion.pixels[loc + 1] = video.pixels[flipLoc + 1];
        motion.pixels[loc + 2] = video.pixels[flipLoc + 2];
+       motion.pixels[loc + 3] = 190;
       }
 
             //mirror effect2, just difference
@@ -85,7 +89,7 @@ function draw() {
       //  motion.pixels[loc + 2] = video.pixels[flipLoc + 2];
       // }
 
-      motion.pixels[loc + 3] = 155;
+      
     }
     }
 
