@@ -1,9 +1,15 @@
 .showcase{
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0 auto;
+    margin: auto;
     padding:0;
-    max-width: 100%;
+    max-height: 90vh;
+    width:fit-content;
+}
+
+video{
     max-height: 100%;
+    max-width: 40vw;
+    padding:0;
+    margin:0;
+    overflow: hidden;
 }
