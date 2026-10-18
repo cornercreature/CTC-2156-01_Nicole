@@ -50,7 +50,7 @@ document.querySelectorAll(".asleep").forEach((button) => {
 //awake buttons functionality
 document.querySelectorAll(".awake").forEach((button) => {
     button.addEventListener("click", () => {
-        honkshoe.volume += 0.01;
+        honkshoe.volume += 0.03;
         lelele.volume += 0.01;
 
         lelele.play(); 
