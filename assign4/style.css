@@ -1,9 +1,10 @@
 .showcase{
     display: flex;
-    margin: auto;
+    margin: 30px auto;
     padding:0;
     max-height: 90vh;
     width:fit-content;
+     overflow: hidden;
 }
 
 video{
@@ -12,4 +13,9 @@ video{
     padding:0;
     margin:0;
     overflow: hidden;
+}
+
+.back{
+    display: flex;
+    margin-top: -10px;
 }
