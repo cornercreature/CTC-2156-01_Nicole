@@ -2,10 +2,16 @@ const honkshoe = document.getElementById("honkshoe");
 const lelele = document.getElementById("lelele");
 const playButton = document.getElementById("play");
 const progBar = document.getElementById("progbar");
+const voltxtdisp = document.getElementById("voltxtdisp");
 
 var volume = 0;
 
 let isPlaying = false;
+let volnum = 0.01;
+let voltxt = "Vol: " + volnum;
+
+honkshoe.volume = 0.01;
+lelele.volume = 0.01;
 
 playButton.addEventListener("click", () => {
     if (isPlaying) {
@@ -19,16 +25,27 @@ playButton.addEventListener("click", () => {
 
 });
 
-document.getElementById("asleep").addEventListener("click", () => {
-        honkshoe.volume = 0.1;
-        lelele.volume = 0.1;
+document.querySelectorAll(".asleep").forEach((button) => {
+    button.addEventListener("click", () => {
+        honkshoe.volume = 0.01;
+        lelele.volume = 0.01;
 
-        lelele.play();  
+        lelele.play();
+        
+        voltxtdisp.textContent = "Vol: 0.01";
+    });
 });
 
-document.getElementById("awake").addEventListener("click", () => {
-        honkshoe.volume += 0.05;
-        lelele.volume += 0.2;
+document.querySelectorAll(".awake").forEach((button) => {
+    button.addEventListener("click", () => {
+        honkshoe.volume += 0.01;
+        lelele.volume += 0.01;
 
-        lelele.play();  
+        lelele.play(); 
+        
+        volnum += 0.01;
+        voltxt = "Vol: " + volnum;
+
+        voltxtdisp.textContent = voltxt;
+    });
 });
