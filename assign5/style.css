@@ -21,6 +21,9 @@ button.back{
     padding-bottom:20px;
 }
 
+.play{
+    background-color:aqua;
+}
 audio{
     display: none;
 }

@@ -1,7 +1,6 @@
 const honkshoe = document.getElementById("honkshoe");
 const lelele = document.getElementById("lelele");
 const playButton = document.getElementById("play");
-const progBar = document.getElementById("progbar");
 const voltxtdisp = document.getElementById("voltxtdisp");
 const grid = document.querySelector('.parent');
 const items = document.querySelectorAll('.parent > div');
@@ -21,9 +20,15 @@ playButton.addEventListener("click", () => {
     if (isPlaying) {
         honkshoe.pause();
         playButton.textContent = "hear sound";
+        playButton.style.backgroundColor = "aqua";
     } else {
         honkshoe.play();
         playButton.textContent = "stop hearing";
+        playButton.style.backgroundColor = "red";
+
+        window.addEventListener('mousemove', (event) => {
+  
+    });
     }
     isPlaying = !isPlaying;
 
@@ -50,7 +55,7 @@ document.querySelectorAll(".asleep").forEach((button) => {
 //awake buttons functionality
 document.querySelectorAll(".awake").forEach((button) => {
     button.addEventListener("click", () => {
-        honkshoe.volume += 0.03;
+        honkshoe.volume += 0.05;
         lelele.volume += 0.01;
 
         lelele.play(); 
