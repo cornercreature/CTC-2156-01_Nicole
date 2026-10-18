@@ -1,4 +1,21 @@
 
+.parent{
+    max-width: 70%;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin: auto;
+    background-color: #fff;
+}
+
+.parent > div{
+    background-color: #fff;
+}
+img{
+    max-width: 100%;
+    height: auto;
+    border: 0px;
+    background-color: #fff;
+}
 .back{
     display: flex;
     margin-top: -10px;
