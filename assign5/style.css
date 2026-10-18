@@ -3,7 +3,8 @@ header{
     justify-content: center;
     align-items: center;
     background-color: #fff;
-    padding: 10px 20px;
+    padding: 10px 0px 10px 0px;
+    margin-bottom: 0px;
 }
 button.back{
     position: absolute;
@@ -16,7 +17,7 @@ button.back{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: -10px;
     padding-bottom:20px;
 }
 
@@ -24,16 +25,19 @@ audio{
     display: none;
 }
 .parent{
-    max-width: 67%;
+    max-width: 60%;
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     margin: auto;
     background-color: #fff;
+    border:1px solid #000 ;
 }
 
-.parent > div{
+.child{
     background-color: #fff;
+    border:0.3px solid #000 ;
 }
+
 img{
     max-width: 100%;
     height: auto;
@@ -49,7 +53,7 @@ img{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 40px;
     text-align: center;
     font-size: 1.2rem;
     color: #333;
@@ -59,14 +63,28 @@ img{
     display: column;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: -20px;
     text-align: center;
     font-size: 1.2rem;
     color: #333;
+    font-family: 'Apple-Chancery';
 }
 .gif{
+    margin-top: -20px;
     max-width: 5%;
     height: auto;
     border: 0px;
     background-color: #fff;
+}
+
+#blblbl{
+    display:none;
+    z-index: 200;
+    position:absolute;
+    width: 70vw;
+    left: 14vw;
+}
+
+.blbl{
+    width: 100%;
 }

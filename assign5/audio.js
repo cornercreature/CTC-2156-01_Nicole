@@ -5,6 +5,7 @@ const progBar = document.getElementById("progbar");
 const voltxtdisp = document.getElementById("voltxtdisp");
 const grid = document.querySelector('.parent');
 const items = document.querySelectorAll('.parent > div');
+const blblbl = document.getElementById("blblbl");
 
 var volume = 0;
 
@@ -64,5 +65,11 @@ document.querySelectorAll(".awake").forEach((button) => {
         const randomOrder = Math.floor(Math.random() * items.length);
         item.style.order = randomOrder;
         });
+        
+        blblbl.style.display = "block";
+        setTimeout(() => {
+            blblbl.style.display = "none";
+        }, 1000);
+
     });
 });
