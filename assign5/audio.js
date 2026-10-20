@@ -12,6 +12,8 @@ let isPlaying = false;
 let volnum = 0.01;
 let voltxt = "Vol: " + volnum;
 
+let lastclick = null;
+
 honkshoe.volume = 0.01;
 lelele.volume = 0.01;
 
@@ -49,22 +51,33 @@ document.querySelectorAll(".asleep").forEach((button) => {
         const randomOrder = Math.floor(Math.random() * items.length);
         item.style.order = randomOrder;
         });
+
+        
+        volnum = 0.01;
+        voltxt = "Vol: " + volnum;
+        
+        lastclick = "asleep";
+
     });
 });
 
 //awake buttons functionality
 document.querySelectorAll(".awake").forEach((button) => {
+
+    honkshoe.addEventListener("volumechange", () => {
+            if(honkshoe.volume === 1){
+                    voltxt = "Vol: Max";
+                    voltxtdisp.textContent = voltxt;
+                };
+            });
+
     button.addEventListener("click", () => {
-        honkshoe.volume += 0.05;
-        lelele.volume += 0.01;
-
+        //increase volume
+        honkshoe.volume = Math.min(honkshoe.volume + 0.05,1);
+        lelele.volume = Math.min(lelele.volume + 0.01,1);
+        //scramble sound effect
         lelele.play(); 
-        
-        volnum += 0.01;
-        voltxt = "Vol: " + volnum;
-
-        voltxtdisp.textContent = voltxt;
-
+    
         //ramdomize the order of the child divs in the grid
         items.forEach(item => {
         const randomOrder = Math.floor(Math.random() * items.length);
@@ -76,5 +89,17 @@ document.querySelectorAll(".awake").forEach((button) => {
             blblbl.style.display = "none";
         }, 1000);
 
+        voltxtdisp.textContent = voltxt;
+
+        lastclick = "awake";
+
+        if (lastclick === "asleep") {
+            volnum = 0.01;
+            volnum = Math.min(volnum + 0.05,1);
+            voltxt = "Vol: " + volnum;
+        } else if (lastclick === "awake") {
+            volnum = Math.min(volnum + 0.05,1);
+            voltxt = "Vol: " + volnum;
+        };
     });
 });
