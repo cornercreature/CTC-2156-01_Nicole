@@ -36,6 +36,10 @@ audio{
     border:1px solid #000 ;
 }
 
+.parent button{
+    border: none;
+    background-color: #fff;
+}
 .child{
     background-color: #fff;
     border:0.3px solid #000 ;
